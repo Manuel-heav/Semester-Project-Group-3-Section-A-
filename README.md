@@ -27,7 +27,9 @@ given in 2024 for Section A, Group 3 Students. It allows guests to book rooms in
 - Compile the program using: `g++ -o hotel_reservation assignment.cpp`
 - Execute it as: `./hotel_reservation`
 
----
+**Pattern Example:**
+
+## ![Flowchart](/Hotel%20Reservation%20System/flowchart.png)
 
 # Pattern Printing Program
 
@@ -56,7 +58,7 @@ given in 2024 for Section A, Group 3 Students. It allows you to print a certain 
 
 **Pattern Example:**
 
-![Pattern Example](/Pattern/image.png)
+![Pattern](/Pattern/image.png)
 
 **Authors:**
 
