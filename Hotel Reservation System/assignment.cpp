@@ -48,16 +48,16 @@ Date: Sunday, January 20, 2024
 */
 
 #include <iostream>
-#include <iomanip>
-#include <limits>
 #include <string>
 using namespace std;
 
 const int rooms = 150;
-const int roomCategory = 10;
 const int oceanStart = 1;
 const int poolStart = 61;
 const int gardenStart = 111;
+const int oceanEnd = 60;
+const int poolEnd = 110;
+const int gardenEnd = 150;
 
 int main()
 {
@@ -73,6 +73,7 @@ int main()
     char answer;
     do
     {
+    y:
         int roomType, roomNumber;
         cout << "Please select the room type you want to book" << endl;
         cout << "1. Ocean View Suite" << endl;
@@ -83,13 +84,14 @@ int main()
         if (roomType < 1 || roomType > 3)
         {
             cout << "Invalid input. Please select a valid room type." << endl;
-            cin.clear();
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
-            continue;
+            cout << endl;
+            goto y;
         }
 
         int roomCategoryStart = (roomType == 1) ? oceanStart : (roomType == 2) ? poolStart
                                                                                : gardenStart;
+        int roomCategoryEnd = (roomType == 1) ? oceanEnd : (roomType == 2) ? poolEnd
+                                                                           : gardenEnd;
 
         cout << "You have selected ";
         switch (roomType)
@@ -105,24 +107,19 @@ int main()
             break;
         }
         cout << endl;
-
-        cout << "Please select the room number you want to book" << endl;
-        for (int i = 0; i < roomCategory; ++i)
-        {
-            cout << i + 1 << ". " << roomCategoryStart + i << endl;
-        }
+    q:
+        cout << "Please select the room number you want to book from room " << roomCategoryStart << " - " << roomCategoryEnd << endl;
 
         cin >> roomNumber;
 
-        if (roomNumber < 1 || roomNumber > roomCategory)
+        if (roomNumber < roomCategoryStart || roomNumber > roomCategoryEnd)
         {
             cout << "Invalid input. Please select a valid room number." << endl;
-            cin.clear();
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
-            continue;
+            cout << endl;
+            goto q;
         }
 
-        int roomIndex = roomCategoryStart + roomNumber - 1;
+        int roomIndex = roomNumber - 1;
 
         if (roomStatus[roomIndex] == 0)
         {
@@ -136,11 +133,13 @@ int main()
             cin >> reservationCodes[roomIndex];
 
             roomStatus[roomIndex] = 1;
-            cout << "You have successfully booked room " << roomCategoryStart + roomNumber << endl;
+            cout << "You have successfully booked room " << roomNumber << endl;
         }
         else
         {
-            cout << "Room " << roomCategoryStart + roomNumber << " is not available." << endl;
+            cout << "Room " << roomIndex + 1 << " is not available." << endl;
+            cout << endl;
+            goto q;
         }
 
         cout << "Do you want to book another room? (Y/N)" << endl;
@@ -156,26 +155,28 @@ int main()
             cout << "Room " << i + 1 << " is booked by " << guestNames[i] << endl;
         }
     }
-
-    string searchName;
-    cout << "Enter a name to search for patrons: ";
-    cin >> searchName;
-
-    bool found = false;
-    for (int i = 0; i < rooms; ++i)
+    do
     {
-        if (guestNames[i] == searchName)
+        string searchName;
+        cout << "Enter a name to search for patrons: ";
+        cin >> searchName;
+
+        bool found = false;
+        for (int i = 0; i < rooms; ++i)
         {
-            cout << "Guest found in room " << i + 1 << ". Reservation code: " << reservationCodes[i] << endl;
-            found = true;
-            break;
+            if (guestNames[i] == searchName)
+            {
+                cout << "Guest found in room " << i + 1 << ". Reservation code: " << reservationCodes[i] << endl;
+                found = true;
+            }
         }
-    }
 
-    if (!found)
-    {
-        cout << "No guest found with the given name." << endl;
-    }
-
+        if (!found)
+        {
+            cout << "No guest found with the given name." << endl;
+        }
+        cout << "would you like to search again ? (Y/N) " << endl;
+        cin >> answer;
+    } while (answer == 'Y' || answer == 'y');
     return 0;
 }
