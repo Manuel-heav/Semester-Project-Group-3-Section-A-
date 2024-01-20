@@ -54,6 +54,10 @@ given in 2024 for Section A, Group 3 Students. It allows you to print a certain 
 
 ---
 
+**Pattern Example:**
+
+![Pattern Example](/Pattern/image.png)
+
 **Authors:**
 
 - Abenezer Yirgalem [ETS0052/15]
