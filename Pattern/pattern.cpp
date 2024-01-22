@@ -41,17 +41,32 @@ Date: Sunday, January 20, 2024
 */
 
 #include <iostream>
+#include <iomanip>
+#include <limits>
 using namespace std;
 
 int main()
 {
   int n, y;
-  cout << "Enter a number between 0 and 9 : ";
+
+  cout << "Enter a number between 1 and 9 : ";
+invalid_input:
   cin >> n;
+  if (cin.fail())
+  {
+    cout << "Invalid input. Please select a valid number." << endl;
+    cin.clear();
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    cout << endl;
+    goto invalid_input;
+  }
   if (n < 1 || n > 9)
   {
     cout << "Invalid input. Please enter a number between 0 and 9." << endl;
-    return 0;
+    cin.clear();
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    cout << endl;
+    goto invalid_input;
   }
   else
   {
