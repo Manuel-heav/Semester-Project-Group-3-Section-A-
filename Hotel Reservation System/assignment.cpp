@@ -48,6 +48,8 @@ Date: Sunday, January 20, 2024
 */
 
 #include <iostream>
+#include <iomanip>
+#include <limits>
 #include <string>
 using namespace std;
 
@@ -73,19 +75,24 @@ int main()
     char answer;
     do
     {
-    y:
+
         int roomType, roomNumber;
+    homepage:
         cout << "Please select the room type you want to book" << endl;
         cout << "1. Ocean View Suite" << endl;
         cout << "2. Poolside Villa" << endl;
         cout << "3. Garden View Room" << endl;
+        cout << "4. EXIT" << endl;
+    invalid_room_type:
         cin >> roomType;
 
-        if (roomType < 1 || roomType > 3)
+        if (roomType < 1 || roomType > 4)
         {
             cout << "Invalid input. Please select a valid room type." << endl;
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
             cout << endl;
-            goto y;
+            goto invalid_room_type;
         }
 
         int roomCategoryStart = (roomType == 1) ? oceanStart : (roomType == 2) ? poolStart
@@ -105,18 +112,24 @@ int main()
         case 3:
             cout << "Garden View Room";
             break;
+        case 4:
+            cout << "EXIT" << endl;
+            cout << "----THANK YOU ----" << endl;
+            return 0;
         }
         cout << endl;
-    q:
-        cout << "Please select the room number you want to book from room " << roomCategoryStart << " - " << roomCategoryEnd << endl;
 
+        cout << "Please select the room number you want to book from room " << roomCategoryStart << " - " << roomCategoryEnd << endl;
+    invalid_room_number:
         cin >> roomNumber;
 
         if (roomNumber < roomCategoryStart || roomNumber > roomCategoryEnd)
         {
             cout << "Invalid input. Please select a valid room number." << endl;
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
             cout << endl;
-            goto q;
+            goto invalid_room_number;
         }
 
         int roomIndex = roomNumber - 1;
@@ -128,7 +141,16 @@ int main()
             cout << "Please enter your gender: ";
             cin >> guestGender[roomIndex];
             cout << "Please enter your age: ";
+        invalid_age:
             cin >> guestAge[roomIndex];
+            if (guestAge[roomIndex] < 1 || guestAge[roomIndex] > 150)
+            {
+                cout << "Invalid input. Please put a valid AGE: ";
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                goto invalid_age;
+            }
+
             cout << "Please enter a unique reservation code: ";
             cin >> reservationCodes[roomIndex];
 
@@ -139,10 +161,10 @@ int main()
         {
             cout << "Room " << roomIndex + 1 << " is not available." << endl;
             cout << endl;
-            goto q;
+            goto invalid_room_number;
         }
 
-        cout << "Do you want to book another room? (Y/N)" << endl;
+        cout << "Do you want to book another room? (Y for yes or other key to see current reserved room ): ";
         cin >> answer;
 
     } while (answer == 'Y' || answer == 'y');
@@ -152,7 +174,8 @@ int main()
     {
         if (roomStatus[i] == 1)
         {
-            cout << "Room " << i + 1 << " is booked by " << guestNames[i] << endl;
+            cout << "   => Room " << i + 1 << " is booked by " << guestNames[i] << endl;
+            cout << endl;
         }
     }
     do
@@ -175,8 +198,9 @@ int main()
         {
             cout << "No guest found with the given name." << endl;
         }
-        cout << "would you like to search again ? (Y/N) " << endl;
+        cout << "would you like to search again ? (Y for yes or other key to back to home page): ";
         cin >> answer;
     } while (answer == 'Y' || answer == 'y');
+    goto homepage;
     return 0;
 }
