@@ -44,7 +44,7 @@ Authors (Group 3):
 - Amanuel Melkamu [ETS0129/15]
 - Amanuel Wubishet [ETS0133/15]
 
-Date: Sunday, January 20, 2024
+Date: Tuesday, January 23, 2024
 */
 
 #include <iostream>
@@ -60,6 +60,8 @@ const int gardenStart = 111;
 const int oceanEnd = 60;
 const int poolEnd = 110;
 const int gardenEnd = 150;
+const string username = "admin";
+const string passcode = "admin321";
 
 int main()
 {
@@ -68,25 +70,60 @@ int main()
     string guestGender[rooms];
     int guestAge[rooms];
     string reservationCodes[rooms];
+    string staffUsername, staffPasscode;
     cout << "===============================================================================" << endl;
     cout << "              Welcome to AASTU's Hotel Room Reservation System" << endl;
     cout << "===============================================================================" << endl;
 
-    char answer;
+    char answer, genderChar;
+
+    int roomType, roomNumber, optionType;
+homepage:
+    cout << "Please select what you want " << endl;
+    cout << "1. To choose room type " << endl;
+    cout << "2. To search for patrons " << endl;
+    cout << "3. Exit " << endl;
+INVALID_OPTIONTYPE:
+    cin >> optionType;
+
+    if (optionType < 1 || optionType > 3)
+    {
+        cout << "Invalid input. Please select a valid choice." << endl;
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        cout << endl;
+        goto INVALID_OPTIONTYPE;
+    }
+
+    cout << "You have selected ";
+    switch (optionType)
+    {
+    case 1:
+        cout << "to choose room type";
+
+        break;
+    case 2:
+        cout << "to serach for patrons" << endl;
+        goto searchType;
+        break;
+    case 3:
+        cout << "Exit " << endl
+             << "-------- THANK YOU ---------";
+        return 0;
+        break;
+    }
+    cout << endl;
     do
     {
-
-        int roomType, roomNumber;
-    homepage:
         cout << "Please select the room type you want to book" << endl;
         cout << "1. Ocean View Suite" << endl;
         cout << "2. Poolside Villa" << endl;
         cout << "3. Garden View Room" << endl;
-        cout << "4. EXIT" << endl;
+
     invalid_room_type:
         cin >> roomType;
 
-        if (roomType < 1 || roomType > 4)
+        if (roomType < 1 || roomType > 3)
         {
             cout << "Invalid input. Please select a valid room type." << endl;
             cin.clear();
@@ -112,10 +149,6 @@ int main()
         case 3:
             cout << "Garden View Room";
             break;
-        case 4:
-            cout << "EXIT" << endl;
-            cout << "----THANK YOU ----" << endl;
-            return 0;
         }
         cout << endl;
 
@@ -138,17 +171,29 @@ int main()
         {
             cout << "Please enter your name: ";
             cin >> guestNames[roomIndex];
-            cout << "Please enter your gender: ";
+            cout << "Please enter your gender (M/F): ";
+        invalid_gender:
             cin >> guestGender[roomIndex];
+
+            genderChar = toupper(guestGender[roomIndex][0]);
+
+            if (genderChar != 'M' && genderChar != 'F')
+            {
+                cout << "Invalid input. Please enter 'M' for Male or 'F' for Female : ";
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                goto invalid_gender;
+            }
+
             cout << "Please enter your age: ";
-        invalid_age:
+        invalidAge:
             cin >> guestAge[roomIndex];
             if (guestAge[roomIndex] < 1 || guestAge[roomIndex] > 150)
             {
                 cout << "Invalid input. Please put a valid AGE: ";
                 cin.clear();
                 cin.ignore(numeric_limits<streamsize>::max(), '\n');
-                goto invalid_age;
+                goto invalidAge;
             }
 
             cout << "Please enter a unique reservation code: ";
@@ -159,12 +204,13 @@ int main()
         }
         else
         {
-            cout << "Room " << roomIndex + 1 << " is not available." << endl;
+            cout << "Sorry, room " << roomIndex + 1 << " is not available." << endl;
             cout << endl;
+            cout << "Please choose another room: ";
             goto invalid_room_number;
         }
 
-        cout << "Do you want to book another room? (Y for yes or other key to see current reserved room ): ";
+        cout << "Do you want to book another room? (Y for yes or other key to see current reserved room and to see homepage): ";
         cin >> answer;
 
     } while (answer == 'Y' || answer == 'y');
@@ -178,8 +224,25 @@ int main()
             cout << endl;
         }
     }
+
+    goto homepage;
+    // if (optionType==2){
     do
     {
+    searchType:
+        cout << "please enter the username and the password :  " << endl;
+    invalidUser:
+        cin >> staffUsername;
+        cin >> staffPasscode;
+
+        if (staffUsername != username || staffPasscode != passcode)
+        {
+            cout << "Invalid input. Please put a valid username or password : ";
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            goto invalidUser;
+        }
+
         string searchName;
         cout << "Enter a name to search for patrons: ";
         cin >> searchName;
@@ -201,6 +264,7 @@ int main()
         cout << "would you like to search again ? (Y for yes or other key to back to home page): ";
         cin >> answer;
     } while (answer == 'Y' || answer == 'y');
+
     goto homepage;
     return 0;
 }
