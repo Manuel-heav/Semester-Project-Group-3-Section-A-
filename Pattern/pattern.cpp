@@ -47,7 +47,7 @@ using namespace std;
 
 int main()
 {
-  int n, y;
+  int n, spacing;
 
   cout << "Enter a number between 1 and 9 : ";
 invalid_input:
@@ -82,11 +82,11 @@ invalid_input:
       else
       {
         cout << i;
-        y = 2 * n - 1;
+        spacing = 2 * n - 1;
       }
-      if (y > i)
+      if (spacing > i)
       {
-        for (int k = y; k >= i; k--)
+        for (int k = spacing; k >= i; k--)
         {
           if (k != i)
           {
@@ -98,7 +98,7 @@ invalid_input:
             {
               cout << m;
             }
-            y -= 1;
+            spacing -= 1;
           }
         }
       }
