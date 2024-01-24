@@ -47,7 +47,7 @@ using namespace std;
 
 int main()
 {
-  int n, spacing;
+  int n, upperSpacing;
 
   cout << "Enter a number between 1 and 9 : ";
 invalid_input:
@@ -79,14 +79,15 @@ invalid_input:
           cout << j;
         }
       }
+      // Only for the very first iteration(0                 0)
       else
       {
         cout << i;
-        spacing = 2 * n - 1;
+        upperSpacing = 2 * n - 1;
       }
-      if (spacing > i)
+      if (upperSpacing > i)
       {
-        for (int k = spacing; k >= i; k--)
+        for (int k = upperSpacing; k >= i; k--)
         {
           if (k != i)
           {
@@ -98,10 +99,12 @@ invalid_input:
             {
               cout << m;
             }
-            spacing -= 1;
+            upperSpacing -= 1;
           }
         }
       }
+
+      // Only the most middle iteration 9876543210123456789
       else
       {
         for (int t = 1; t <= n; t++)
@@ -112,7 +115,9 @@ invalid_input:
       cout << endl;
     }
 
-    int x = n - 2;
+    // For the lower part after the most middle
+
+    int lowerSpacing = n - 2;
     for (int i = n - 1; i >= 0; i--)
     {
       if (i > 0)
@@ -122,11 +127,13 @@ invalid_input:
           cout << j;
         }
       }
+
+      // For the last iteration
       else
       {
         cout << i;
       }
-      for (int k = x; k <= i; k++)
+      for (int k = lowerSpacing; k <= i; k++)
       {
         if (k != i)
         {
@@ -138,7 +145,7 @@ invalid_input:
           {
             cout << m;
           }
-          x -= 3;
+          lowerSpacing -= 3;
         }
       }
 
