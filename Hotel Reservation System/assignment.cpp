@@ -103,7 +103,7 @@ INVALID_OPTIONTYPE:
 
         break;
     case 2:
-        cout << "to serach for patrons" << endl;
+        cout << "to search for patrons" << endl;
         goto searchType;
         break;
     case 3:

@@ -61,7 +61,7 @@ invalid_input:
   }
   if (n < 1 || n > 9)
   {
-    cout << "Invalid input. Please enter a number between 0 and 9." << endl;
+    cout << "Invalid input. Please enter a number between 0 and 10." << endl;
     cin.clear();
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
     cout << endl;
@@ -84,6 +84,7 @@ invalid_input:
         cout << i;
         upperSpacing = 2 * n - 1;
       }
+
       if (upperSpacing > i)
       {
         for (int k = upperSpacing; k >= i; k--)
@@ -132,6 +133,7 @@ invalid_input:
       {
         cout << i;
       }
+
       for (int k = lowerSpacing; k <= i; k++)
       {
         if (k != i)
